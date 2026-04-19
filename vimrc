@@ -3,9 +3,6 @@ set number
 set relativenumber
 set cursorline
 highlight CursorLine cterm=NONE ctermbg=236 ctermfg=NONE
-highlight Pmenu ctermbg=238 ctermfg=white
-highlight PmenuSel ctermbg=blue ctermfg=white
-highlight CocFloating ctermbg=238
 set hidden
 set mouse=a
 set noswapfile
@@ -19,8 +16,9 @@ call plug#begin('~/.vim/plugged')
   Plug 'preservim/nerdtree'
   Plug 'ctrlpvim/ctrlp.vim'
   Plug 'vim-airline/vim-airline'
-  Plug 'dense-analysis/ale'
   Plug 'neoclide/coc.nvim', {'branch': 'release'}
+  Plug 'jiangmiao/auto-pairs'
+  Plug 'joshdick/onedark.vim'
 call plug#end()
 
 
@@ -30,11 +28,6 @@ inoremap { {}<Left>
 inoremap " ""<Left>
 inoremap ' ''<Left>
 
-let g:ale_linters = {'python': ['flake8', 'pylint']}
-let g:ale_lint_on_text_changed = 'always'
-let g:ale_sign_column_always = 1
-nmap <silent> [w <Plug>(ale_previous_wrap)
-nmap <silent> ]w <Plug>(ale_next_wrap)
 let mapleader = " "
 nnoremap <leader>n :NERDTreeToggle<CR>
 nnoremap <C-h> <C-w>h
@@ -56,7 +49,14 @@ function! ShowDocumentation()
 		call feedkeys('K', 'in')
 	endif
 endfunction
+if has('persistent_undo')
+	set undodir=~/.vim/undodir
+	set undofile
+endif
 
 let g:ctrlp_working_path_mode = 'c'
 let g:ctrlp_default_working_path = '/ubda/home/24116736d'
 autocmd FileType python nnoremap <F5> :w <bar> !python3 % <CR>
+autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERTree.isTabTree() | quit | endif
+syntax on
+colorscheme onedark
