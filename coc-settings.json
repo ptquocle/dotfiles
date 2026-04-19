@@ -1,0 +1,5 @@
+{
+	"python.analysis.indexing": false,
+	"pyright.disableIndexing": true,
+	"diagnostic.checkCurrentLineOnly": true
+}
